@@ -15,7 +15,7 @@
 
 The project started as a thin model bridge. It now exposes a safer orchestration layer around provider requests, persistent context, bounded agent loops, repository memory, workflows, jobs, and approval-controlled file changes. The host remains the primary controller at every stage.
 
-For installation and package metadata, the npm package name remains lowercase and scoped: `@magnexis/llm-bridge-mcp-server`. The GitHub repository and display branding use `LLM-bridge-mcp-server`.
+For installation and package metadata, the npm package name remains lowercase and scoped: [`@magnexis/llm-bridge-mcp-server`](https://www.npmjs.com/package/@magnexis/llm-bridge-mcp-server). The GitHub repository and display branding use `LLM-bridge-mcp-server`.
 
 Release guide: [RELEASE.md](./RELEASE.md)
 
@@ -201,7 +201,7 @@ Important optional variables:
 - `GLM_BRIDGE_NETWORK_ENABLED`
 - `GLM_BRIDGE_ALLOWED_DOMAINS`
 
-See [docs/CONFIGURATION.md](C:/Users/matth/OneDrive/Desktop/company/cant-stop/docs/CONFIGURATION.md).
+See [docs/CONFIGURATION.md](./docs/CONFIGURATION.md).
 
 ## Build and development
 
@@ -215,15 +215,15 @@ npm run verify
 
 ## Claude Desktop
 
-See [docs/CLAUDE-DESKTOP.md](C:/Users/matth/OneDrive/Desktop/company/cant-stop/docs/CLAUDE-DESKTOP.md) and [examples/claude_desktop_config.json](C:/Users/matth/OneDrive/Desktop/company/cant-stop/examples/claude_desktop_config.json).
+See [docs/CLAUDE-DESKTOP.md](./docs/CLAUDE-DESKTOP.md) and [examples/claude_desktop_config.json](./examples/claude_desktop_config.json).
 
 ## Codex
 
-See [docs/CODEX.md](C:/Users/matth/OneDrive/Desktop/company/cant-stop/docs/CODEX.md) and [examples/codex-config.toml](C:/Users/matth/OneDrive/Desktop/company/cant-stop/examples/codex-config.toml).
+See [docs/CODEX.md](./docs/CODEX.md) and [examples/codex-config.toml](./examples/codex-config.toml).
 
 ## MCP Registry packaging
 
-This repository is now structured for MCP Registry publication as an `npm` package with a companion [server.json](C:/Users/matth/OneDrive/Desktop/company/cant-stop/server.json). See [docs/REGISTRY-PUBLISHING.md](C:/Users/matth/OneDrive/Desktop/company/cant-stop/docs/REGISTRY-PUBLISHING.md).
+This repository is now structured for MCP Registry publication as an `npm` package with a companion [server.json](./server.json). See [docs/REGISTRY-PUBLISHING.md](./docs/REGISTRY-PUBLISHING.md).
 
 ## Remote MCP hosting
 
@@ -358,3 +358,7 @@ npm run test:run
 - deepen quality-gate execution
 - complete privacy-mode enforcement
 - generalize workflow-step execution and rollback semantics
+
+## License
+
+MIT © 2026 Magnexis. See [LICENSE](./LICENSE).
