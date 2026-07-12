@@ -1,0 +1,22 @@
+[mcp_servers.llm-bridge]
+command = "npx"
+args = ["-y", "@magnexis/llm-bridge-mcp-server"]
+enabled = true
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+
+[mcp_servers.llm-bridge.env]
+ZAI_API_KEY = "replace_me"
+ZAI_PROVIDER = "zai"
+ZAI_API_BASE_URL = "https://api.z.ai/api/paas/v4/chat/completions"
+ZAI_TEXT_MODEL = "glm-5-turbo"
+ZAI_VISION_MODEL = "glm-5v-turbo"
+GLM_BRIDGE_TRANSPORT_MODE = "stdio"
+
+[mcp_servers.llm-bridge-remote]
+url = "http://127.0.0.1:3456/mcp"
+enabled = false
+default_tools_approval_mode = "prompt"
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+bearer_token_env_var = "GLM_BRIDGE_REMOTE_AUTH_TOKEN"

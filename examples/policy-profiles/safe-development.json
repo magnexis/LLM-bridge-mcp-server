@@ -1,0 +1,17 @@
+{
+  "id": "safe_development",
+  "description": "Scoped file changes and approved validation commands.",
+  "allowWrites": true,
+  "requireApprovalForWrites": true,
+  "allowCommands": true,
+  "requireApprovalForCommands": true,
+  "allowNetwork": false,
+  "allowFileDeletion": false,
+  "allowDependencyChanges": false,
+  "maximumChangedFiles": 25,
+  "maximumPatchChars": 200000,
+  "maximumAgentRuns": 8,
+  "deniedPaths": [],
+  "allowedDomains": [],
+  "privacyMode": "standard"
+}

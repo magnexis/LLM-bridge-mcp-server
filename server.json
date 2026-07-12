@@ -1,0 +1,58 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.magnexis/LLM-bridge-mcp-server",
+  "title": "LLM Bridge MCP Server",
+  "description": "Approval-gated LLM MCP bridge with persistent contexts, sessions, workflows, repository memory, and controlled development operations.",
+  "repository": {
+    "url": "https://github.com/magnexis/LLM-bridge-mcp-server",
+    "source": "github"
+  },
+  "version": "1.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@magnexis/llm-bridge-mcp-server",
+      "version": "1.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "runtimeArguments": [
+        {
+          "type": "named",
+          "name": "--transport",
+          "description": "Optional runtime override for startup mode. Defaults to stdio through environment configuration."
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "ZAI_API_KEY",
+          "description": "Provider API key for configured LLM access.",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "ZAI_PROVIDER",
+          "description": "Provider selection. Use zai or openrouter.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "GLM_BRIDGE_TRANSPORT_MODE",
+          "description": "Bridge transport mode. Use stdio for local hosts or http for remote hosting.",
+          "isRequired": false,
+          "isSecret": false,
+          "format": "string"
+        },
+        {
+          "name": "GLM_BRIDGE_REMOTE_AUTH_TOKEN",
+          "description": "Bearer token required when remote bearer or oauth_metadata auth modes are enabled.",
+          "isRequired": false,
+          "isSecret": true,
+          "format": "string"
+        }
+      ]
+    }
+  ]
+}

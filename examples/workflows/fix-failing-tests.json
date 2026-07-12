@@ -1,0 +1,6 @@
+{
+  "workflowId": "fix_failing_tests",
+  "objective": "Analyze a failing test suite and prepare an approval-gated patch.",
+  "workingDirectory": "C:\\path\\to\\repo",
+  "createJob": true
+}

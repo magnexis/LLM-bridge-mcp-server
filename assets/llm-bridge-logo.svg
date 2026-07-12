@@ -1,0 +1,57 @@
+<svg width="640" height="240" viewBox="0 0 640 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="panel" x1="40" y1="24" x2="232" y2="216" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="64" y1="48" x2="208" y2="192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="0.5" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#34D399"/>
+    </linearGradient>
+    <linearGradient id="bridge" x1="78" y1="138" x2="194" y2="138" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <filter id="softShadow" x="24" y="16" width="224" height="224" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#020617" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <rect x="32" y="24" width="208" height="192" rx="44" fill="url(#panel)"/>
+    <rect x="33" y="25" width="206" height="190" rx="43" stroke="rgba(148,163,184,0.18)"/>
+  </g>
+
+  <path d="M84 82C84 72.0589 92.0589 64 102 64H114C123.941 64 132 72.0589 132 82V156C132 165.941 123.941 174 114 174H102C92.0589 174 84 165.941 84 156V82Z" fill="#08111F"/>
+  <path d="M140 62C140 52.0589 148.059 44 158 44H170C179.941 44 188 52.0589 188 62V176C188 185.941 179.941 194 170 194H158C148.059 194 140 185.941 140 176V62Z" fill="#08111F"/>
+
+  <rect x="90" y="70" width="36" height="98" rx="18" stroke="url(#stroke)" stroke-width="10"/>
+  <rect x="146" y="50" width="36" height="138" rx="18" stroke="url(#stroke)" stroke-width="10"/>
+  <path d="M120 120H152" stroke="url(#bridge)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M182 120H198C208.493 120 217 128.507 217 139V139" stroke="url(#bridge)" stroke-width="14" stroke-linecap="round"/>
+
+  <circle cx="108" cy="82" r="8" fill="#22D3EE"/>
+  <circle cx="164" cy="62" r="8" fill="#8B5CF6"/>
+  <circle cx="164" cy="176" r="8" fill="#34D399"/>
+  <circle cx="108" cy="156" r="8" fill="#22D3EE"/>
+
+  <g fill="#E2E8F0">
+    <path d="M291.936 151V85.5455H305.845L321.891 124.682H322.654L338.7 85.5455H352.609V151H341.663V104.165H341.123L322.4 150.744H314.145L295.422 104.037H294.882V151H283.936Z"/>
+    <path d="M365.111 151V85.5455H408.432V95.1506H376.693V113.267H406.15V122.872H376.693V141.395H408.686V151H365.111Z"/>
+    <path d="M420.334 151V85.5455H431.916V141.268H460.869V151H420.334Z"/>
+  </g>
+
+  <g fill="#94A3B8">
+    <path d="M285 170.5H463" stroke="#334155" stroke-width="1.5"/>
+    <path d="M285.5 185H436.5" stroke="#1E293B" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <g fill="#CBD5E1">
+    <path d="M285 201V187.909H290.176V196.727H294.759V201H285Z"/>
+    <path d="M300.353 201V187.909H305.529V201H300.353Z"/>
+    <path d="M311.123 201V187.909H316.298L321.73 196.855H322.048V187.909H327.224V201H322.048L316.616 192.182H316.298V201H311.123Z"/>
+    <path d="M332.818 201V187.909H338.057L342.067 196.155H342.321L346.331 187.909H351.57V201H347.433V194.182H347.178L344.45 199.867H339.938L337.209 194.118H336.955V201H332.818Z"/>
+    <path d="M357.164 201V187.909H367.305V191.665H362.34V192.755H366.859V196.218H362.34V197.245H367.56V201H357.164Z"/>
+  </g>
+</svg>

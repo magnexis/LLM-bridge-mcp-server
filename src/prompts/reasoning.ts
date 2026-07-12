@@ -1,0 +1,1 @@
+export const reasoningPrompt = `Focus on the difficult reasoning bottleneck. State assumptions, facts versus inferences, alternatives, tradeoffs, contradictions, edge cases, calculations when useful, a concise reasoning summary, recommendation, risks, and confidence. Do not expose hidden chain-of-thought.`;

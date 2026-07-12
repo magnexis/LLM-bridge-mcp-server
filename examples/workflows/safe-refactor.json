@@ -1,0 +1,6 @@
+{
+  "workflowId": "safe_refactor",
+  "objective": "Stage a small refactor with reviewable changes and validation steps.",
+  "workingDirectory": "C:\\path\\to\\repo",
+  "createJob": true
+}

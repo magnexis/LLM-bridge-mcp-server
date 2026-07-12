@@ -1,0 +1,3 @@
+import type { NormalizedCompletionResponse } from "../api/types.js";
+export function toolText(result: NormalizedCompletionResponse, details: Record<string, unknown>): { content: Array<{type:"text";text:string}> } { const metadata={model:result.model,provider:result.provider,usage:result.usage ?? null,finishReason:result.finishReason ?? null,...details}; return {content:[{type:"text",text:`${result.text}\n\n---\nMetadata:\n${JSON.stringify(metadata,null,2)}`}]}; }
+export function toolError(error: unknown): { content:Array<{type:"text";text:string}>; isError:true } { const message=error instanceof Error ? error.message : "Unexpected tool error."; return {content:[{type:"text",text:`Request failed: ${message}`}],isError:true}; }

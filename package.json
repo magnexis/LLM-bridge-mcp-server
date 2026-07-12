@@ -1,0 +1,66 @@
+{
+  "name": "@magnexis/llm-bridge-mcp-server",
+  "version": "1.1.0",
+  "description": "Approval-gated LLM MCP bridge server for Codex, Claude Desktop, and other MCP-compatible hosts.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "llm-bridge-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "assets",
+    "manifest.json",
+    "server.json",
+    "examples",
+    "docs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magnexis/LLM-bridge-mcp-server.git"
+  },
+  "homepage": "https://github.com/magnexis/LLM-bridge-mcp-server",
+  "bugs": {
+    "url": "https://github.com/magnexis/LLM-bridge-mcp-server/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "glm-5",
+    "codex",
+    "claude",
+    "agent",
+    "typescript"
+  ],
+  "mcpName": "io.github.magnexis/LLM-bridge-mcp-server",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "inspect:mcp": "node scripts/inspect-mcp.mjs",
+    "verify": "npm run typecheck && npm run test:run && npm run build && node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

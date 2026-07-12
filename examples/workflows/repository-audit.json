@@ -1,0 +1,6 @@
+{
+  "workflowId": "repository_audit",
+  "objective": "Inspect a repository and summarize structure, risks, and follow-up actions.",
+  "workingDirectory": "C:\\path\\to\\repo",
+  "createJob": true
+}

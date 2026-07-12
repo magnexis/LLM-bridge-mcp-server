@@ -1,0 +1,2 @@
+import { z } from "zod";import { ProviderResponseError } from "../api/errors.js";
+export function parseStructured<T>(text:string,schema:z.ZodType<T>):T { let value:unknown;try{value=JSON.parse(text);}catch{throw new ProviderResponseError("Provider did not return valid JSON for structured output.");}const parsed=schema.safeParse(value);if(!parsed.success)throw new ProviderResponseError("Provider JSON does not match the required structured output.");return parsed.data; }

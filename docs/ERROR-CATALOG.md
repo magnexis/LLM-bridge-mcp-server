@@ -1,0 +1,15 @@
+# Error Catalog
+
+Current typed bridge errors include:
+
+- `CONFIGURATION_ERROR`
+- `API_AUTHENTICATION_ERROR`
+- `API_RATE_LIMIT_ERROR`
+- `API_TIMEOUT_ERROR`
+- `PROVIDER_RESPONSE_ERROR`
+- `LOCAL_FILE_ERROR`
+- `UNSUPPORTED_IMAGE_ERROR`
+- `VALIDATION_ERROR`
+- `APPROVAL_REQUIRED`
+
+These are defined in `src/api/errors.ts`.

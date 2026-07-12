@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "llm-bridge": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@magnexis/llm-bridge-mcp-server"
+      ],
+      "env": {
+        "ZAI_API_KEY": "replace_me",
+        "ZAI_PROVIDER": "zai",
+        "ZAI_API_BASE_URL": "https://api.z.ai/api/paas/v4/chat/completions",
+        "ZAI_TEXT_MODEL": "glm-5-turbo",
+        "ZAI_VISION_MODEL": "glm-5v-turbo",
+        "GLM_BRIDGE_TRANSPORT_MODE": "stdio"
+      }
+    }
+  }
+}

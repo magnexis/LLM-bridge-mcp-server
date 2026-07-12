@@ -1,0 +1,2 @@
+import { describe,it,expect } from "vitest";import { smartRouteSchema } from "../src/tools/smart-route.js";
+describe("routing schema",()=>{it("defaults auto and normal",()=>{const v=smartRouteSchema.parse({request:"Explain dependency injection"});expect(v.preferredMode).toBe("auto");expect(v.responseDepth).toBe("normal");});it("retains explicit vision request",()=>expect(smartRouteSchema.parse({request:"audit",preferredMode:"vision",imagePath:"C:\\x.png"}).preferredMode).toBe("vision"));});

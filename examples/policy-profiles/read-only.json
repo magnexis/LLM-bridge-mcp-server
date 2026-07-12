@@ -1,0 +1,17 @@
+{
+  "id": "read_only",
+  "description": "Inspection only. No writes, commands, or network retrieval.",
+  "allowWrites": false,
+  "requireApprovalForWrites": true,
+  "allowCommands": false,
+  "requireApprovalForCommands": true,
+  "allowNetwork": false,
+  "allowFileDeletion": false,
+  "allowDependencyChanges": false,
+  "maximumChangedFiles": 0,
+  "maximumPatchChars": 0,
+  "maximumAgentRuns": 4,
+  "deniedPaths": [],
+  "allowedDomains": [],
+  "privacyMode": "minimal_retention"
+}

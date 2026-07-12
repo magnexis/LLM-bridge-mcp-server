@@ -1,0 +1,2 @@
+import { describe,it,expect } from "vitest"; import { imageMime,loadImage,MAX_IMAGE_BYTES } from "../src/utils/image.js";
+describe("image utilities",()=>{it("detects MIME",()=>expect(imageMime("x.PNG")).toBe("image/png"));it("rejects unsupported formats",()=>expect(()=>imageMime("x.gif")).toThrow());it("rejects relative paths",async()=>await expect(loadImage("x.png")).rejects.toThrow("absolute"));it("has a 20 MB cap",()=>expect(MAX_IMAGE_BYTES).toBe(20*1024*1024));});
