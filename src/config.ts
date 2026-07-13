@@ -30,6 +30,10 @@ export interface Config {
   maxConcurrentAgentLoops: number;
   maxRetries: number;
   retryBaseDelayMs: number;
+  rateLimitEnabled: boolean;
+  rateLimitWindowMs: number;
+  rateLimitMaxRequests: number;
+  providerRateLimitPerMinute: number;
   networkEnabled: boolean;
   networkTimeoutMs: number;
   networkMaxResponseChars: number;
@@ -175,6 +179,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     maxConcurrentAgentLoops: intEnvFrom(env, "GLM_BRIDGE_MAX_CONCURRENT_AGENT_LOOPS", 1),
     maxRetries: intEnvFrom(env, "ZAI_MAX_RETRIES", 2, true),
     retryBaseDelayMs: intEnvFrom(env, "ZAI_RETRY_BASE_DELAY_MS", 500),
+    rateLimitEnabled: boolEnv(env, "GLM_BRIDGE_RATE_LIMIT_ENABLED", true),
+    rateLimitWindowMs: intEnvFrom(env, "GLM_BRIDGE_RATE_LIMIT_WINDOW_MS", 60000),
+    rateLimitMaxRequests: intEnvFrom(env, "GLM_BRIDGE_RATE_LIMIT_MAX_REQUESTS", 120),
+    providerRateLimitPerMinute: intEnvFrom(env, "GLM_BRIDGE_PROVIDER_RATE_LIMIT_PER_MINUTE", 0, true),
     networkEnabled: boolEnv(env, "GLM_BRIDGE_NETWORK_ENABLED", false),
     networkTimeoutMs: intEnvFrom(env, "GLM_BRIDGE_NETWORK_TIMEOUT_MS", 15000),
     networkMaxResponseChars: intEnvFrom(env, "GLM_BRIDGE_NETWORK_MAX_RESPONSE_CHARS", 100000),

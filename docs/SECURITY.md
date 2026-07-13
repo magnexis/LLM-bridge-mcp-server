@@ -11,7 +11,9 @@ The server sits between an MCP host and a model provider. The main risks are:
 - approval bypass
 - provider data leakage
 - unsafe network retrieval
+- prompt injection from retrieved or user-supplied context
 - protocol-breaking stdout output
+- remote transport abuse through repeated requests
 
 ## Trust boundaries
 

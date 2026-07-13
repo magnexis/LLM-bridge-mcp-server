@@ -18,6 +18,7 @@
 | `ZAI_MAX_OUTPUT_TOKENS` | `8192` |
 | `ZAI_MAX_RETRIES` | `2` |
 | `ZAI_RETRY_BASE_DELAY_MS` | `500` |
+| `GLM_BRIDGE_PROVIDER_RATE_LIMIT_PER_MINUTE` | `0` (disabled) |
 
 ## Bridge
 
@@ -34,6 +35,9 @@
 | `GLM_BRIDGE_MAX_TOOL_OUTPUT_CHARS` | `100000` |
 | `GLM_BRIDGE_MAX_CONCURRENT_REQUESTS` | `3` |
 | `GLM_BRIDGE_MAX_CONCURRENT_AGENT_LOOPS` | `1` |
+| `GLM_BRIDGE_RATE_LIMIT_ENABLED` | `true` |
+| `GLM_BRIDGE_RATE_LIMIT_WINDOW_MS` | `60000` |
+| `GLM_BRIDGE_RATE_LIMIT_MAX_REQUESTS` | `120` |
 | `GLM_BRIDGE_NETWORK_ENABLED` | `false` |
 | `GLM_BRIDGE_NETWORK_TIMEOUT_MS` | `15000` |
 | `GLM_BRIDGE_NETWORK_MAX_RESPONSE_CHARS` | `100000` |
@@ -60,6 +64,7 @@
 
 - `stdio` keeps the original local MCP host flow for Codex and Claude Desktop.
 - `http` starts a remote MCP service with streamable HTTP at `/mcp` and deprecated SSE compatibility endpoints at `/sse` and `/messages`.
+- Remote MCP requests are fixed-window rate limited by client IP / bearer credential when `GLM_BRIDGE_RATE_LIMIT_ENABLED=true`. Provider calls can also be locally capped with `GLM_BRIDGE_PROVIDER_RATE_LIMIT_PER_MINUTE`.
 
 ## Remote auth
 
