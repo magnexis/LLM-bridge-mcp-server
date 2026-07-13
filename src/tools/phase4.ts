@@ -14,6 +14,7 @@ import type { WorkflowRegistry } from "../workflows/registry.js";
 import { buildQualityGatePlan, runQualityGates, type QualityGateResult } from "../evaluation/quality-gates.js";
 import { applyMigrationPlan, planMigration, readSchemaVersion } from "../persistence/migrations.js";
 import { toolError } from "../utils/responses.js";
+import { textWithUntrusted } from "../utils/prompt-security.js";
 
 export const managePolicyProfileObject = z
   .object({
@@ -570,7 +571,7 @@ export const compareModelRecommendations =
   async (input: unknown) => {
     try {
       const args = compareModelRecommendationsSchema.parse(input);
-      const prompt = `${args.question}${args.context ? `\n\nContext:\n${args.context}` : ""}`;
+      const prompt = textWithUntrusted(args.question, [{ label: "comparison_context", content: args.context }]);
       const [reasoning, knowledge] = await Promise.all([
         client.complete({
           model: config.textModel,

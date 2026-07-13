@@ -32,6 +32,10 @@ function makeConfig(dataDir: string): Config {
     maxConcurrentAgentLoops: 1,
     maxRetries: 0,
     retryBaseDelayMs: 1,
+    rateLimitEnabled: true,
+    rateLimitWindowMs: 60_000,
+    rateLimitMaxRequests: 120,
+    providerRateLimitPerMinute: 0,
     networkEnabled: false,
     networkTimeoutMs: 1000,
     networkMaxResponseChars: 1000,
@@ -99,5 +103,25 @@ describe("remote http runtime", () => {
     });
     expect(unauthorized.status).toBe(401);
     expect(unauthorized.headers.get("www-authenticate")).toContain("resource_metadata=");
+  });
+
+  it("rate limits remote MCP requests", async () => {
+    root = await mkdtemp(path.join(tmpdir(), "glm-remote-http-"));
+    const config = { ...makeConfig(root), rateLimitMaxRequests: 1 };
+    const runtime = await startRemoteHttpServer(config);
+    closeRuntime = runtime.close;
+
+    const body = JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "initialize",
+      params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "test", version: "1.0.0" } },
+    });
+    const first = await fetch("http://127.0.0.1:4567/mcp", { method: "POST", headers: { "content-type": "application/json" }, body });
+    const second = await fetch("http://127.0.0.1:4567/mcp", { method: "POST", headers: { "content-type": "application/json" }, body });
+
+    expect(first.status).toBe(401);
+    expect(second.status).toBe(429);
+    expect(second.headers.get("retry-after")).toBeTruthy();
   });
 });

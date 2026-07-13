@@ -10,6 +10,7 @@ import type { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
 import type { Config } from "../config.js";
 import { createServer } from "../server.js";
 import { logError } from "../utils/logging.js";
+import { FixedWindowRateLimiter, type RateLimitResult } from "../utils/rate-limit.js";
 
 type RemoteTransport = StreamableHTTPServerTransport | SSEServerTransport | WebSocketServerTransport;
 
@@ -105,6 +106,24 @@ function text(res: ServerResponse, statusCode: number, body: string, headers: Re
   res.end(body);
 }
 
+function rateLimitHeaders(result: RateLimitResult): Record<string, string> {
+  return {
+    "retry-after": result.retryAfterSeconds.toString(),
+    "x-ratelimit-remaining": result.remaining.toString(),
+    "x-ratelimit-reset": Math.ceil(result.resetAt / 1000).toString(),
+  };
+}
+
+function rateLimitKey(config: Config, req: IncomingMessage): string {
+  const forwarded = Array.isArray(req.headers["x-forwarded-for"]) ? req.headers["x-forwarded-for"][0] : req.headers["x-forwarded-for"];
+  const ip = (forwarded?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown").toLowerCase();
+  const auth = Array.isArray(req.headers.authorization) ? req.headers.authorization[0] : req.headers.authorization;
+  if (config.remoteAuthMode !== "none" && auth) {
+    return `auth:${createHash("sha256").update(auth).digest("hex")}:${ip}`;
+  }
+  return `ip:${ip}`;
+}
+
 function normalizePath(input: string): string {
   return input.startsWith("/") ? input : `/${input}`;
 }
@@ -159,17 +178,29 @@ function unauthorizedHeaders(config: Config): Record<string, string> {
   return headers;
 }
 
-async function readJsonBody(req: IncomingMessage): Promise<unknown> {
+async function readJsonBody(req: IncomingMessage, maxBytes = 1_000_000): Promise<unknown> {
   if (req.method === "GET" || req.method === "DELETE") return undefined;
   const chunks: Buffer[] = [];
+  let total = 0;
   for await (const chunk of req) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    total += buffer.length;
+    if (total > maxBytes) {
+      throw new BadRequestError("Request body is too large.");
+    }
+    chunks.push(buffer);
   }
   if (chunks.length === 0) return undefined;
   const body = Buffer.concat(chunks).toString("utf8").trim();
   if (!body) return undefined;
-  return JSON.parse(body);
+  try {
+    return JSON.parse(body);
+  } catch {
+    throw new BadRequestError("Request body must be valid JSON.");
+  }
 }
+
+class BadRequestError extends Error {}
 
 function isInitializeRequest(body: unknown): boolean {
   return Boolean(
@@ -216,6 +247,7 @@ export async function startRemoteHttpServer(config: Config): Promise<{ server: S
   const transports = new Map<string, RuntimeTransportEntry>();
   const servers = new Map<string, Awaited<ReturnType<typeof createServer>>>();
   const remoteBaseUrl = getRemoteBaseUrl(config);
+  const limiter = config.rateLimitEnabled ? new FixedWindowRateLimiter(config.rateLimitMaxRequests, config.rateLimitWindowMs) : undefined;
 
   function attachTransport(sessionId: string, transport: RemoteTransport, serverInstance: Awaited<ReturnType<typeof createServer>>) {
     transports.set(sessionId, { transport });
@@ -276,6 +308,17 @@ export async function startRemoteHttpServer(config: Config): Promise<{ server: S
           return;
         }
         json(res, 200, metadata);
+        return;
+      }
+
+      const rate = limiter?.check(rateLimitKey(config, req));
+      if (rate && !rate.allowed) {
+        json(
+          res,
+          429,
+          { jsonrpc: "2.0", error: { code: -32029, message: "Rate limit exceeded" }, id: null },
+          rateLimitHeaders(rate),
+        );
         return;
       }
 
@@ -367,10 +410,18 @@ export async function startRemoteHttpServer(config: Config): Promise<{ server: S
 
       text(res, 404, "Not found.");
     } catch (error) {
+      if (error instanceof BadRequestError) {
+        if (!res.headersSent) {
+          json(res, 400, { jsonrpc: "2.0", error: { code: -32700, message: error.message }, id: null });
+        } else if (!res.writableEnded) {
+          res.end();
+        }
+        return;
+      }
       logError("Remote HTTP server request failed", error);
       if (!res.headersSent) {
         json(res, 500, { jsonrpc: "2.0", error: { code: -32603, message: "Internal server error" }, id: null });
-      } else {
+      } else if (!res.writableEnded) {
         res.end();
       }
     }
@@ -380,6 +431,12 @@ export async function startRemoteHttpServer(config: Config): Promise<{ server: S
     try {
       const url = new URL(req.url ?? "/", remoteBaseUrl);
       if (url.pathname !== wsPath || !validateHostHeader(config, req)) {
+        socket.destroy();
+        return;
+      }
+      const rate = limiter?.check(rateLimitKey(config, req));
+      if (rate && !rate.allowed) {
+        socket.write(`HTTP/1.1 429 Too Many Requests\r\nRetry-After: ${rate.retryAfterSeconds}\r\nConnection: close\r\n\r\n`);
         socket.destroy();
         return;
       }
